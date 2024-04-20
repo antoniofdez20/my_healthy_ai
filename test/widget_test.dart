@@ -13,8 +13,8 @@ import 'package:my_healthy_ai/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp(
-      initialRoute: String.fromEnvironment(
+    await tester.pumpWidget(MyApp(
+      initialRoute: const String.fromEnvironment(
         'initialRoute',
         defaultValue: '/initialScreen',
       ),

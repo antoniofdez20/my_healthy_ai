@@ -20,18 +20,18 @@ class CustomNavigationBar extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.account_circle),
+            icon: const Icon(Icons.wechat), // o tambien el icono adb
             onPressed: () {
-              if (currentRoute != '/profileScreen') {
-                Get.offNamed('/profileScreen');
+              if (currentRoute != '/settingsScreen') {
+                Get.offNamed('/settingsScreen');
               }
             },
           ),
           IconButton(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.account_circle),
             onPressed: () {
-              if (currentRoute != '/settingsScreen') {
-                Get.offNamed('/settingsScreen');
+              if (currentRoute != '/profileScreen') {
+                Get.offNamed('/profileScreen');
               }
             },
           ),
