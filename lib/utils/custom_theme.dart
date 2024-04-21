@@ -12,7 +12,16 @@ class MyTheme {
         color: MyColors.azure,
       ),
       //primaryColor: const Color(0xFFA3CEF1), //0xFF6096BA
-      scaffoldBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: MyColors.azure,
+
+      //estilo elevated buttons
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          fixedSize: const Size(200, 50),
+          backgroundColor: MyColors.uranianBlue,
+          foregroundColor: Colors.black,
+        ),
+      ),
     );
   }
 

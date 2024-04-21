@@ -5,6 +5,7 @@ class MyColors {
   static const carolinaBlue = Color(0xFF7BAFD4);
   static const uranianBlue = Color(0xFFA3CEF1);
   static const azure = Color(0xFFD8E8E7);
+  static const mint = Color(0xFF38CB98);
 
   //dark theme
   static const prussianBlue = Color(0xFF01344A);
