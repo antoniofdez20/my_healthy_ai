@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"my-healthy-ai","appId":"1:650466907207:android:d5e6a8a3ec3a24188d8d62","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"my-healthy-ai","configurations":{"android":"1:650466907207:android:d5e6a8a3ec3a24188d8d62","ios":"1:650466907207:ios:7526cfd179523f1d8d8d62"}}}}}}

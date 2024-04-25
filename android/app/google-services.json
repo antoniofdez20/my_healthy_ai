@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "650466907207",
+    "project_id": "my-healthy-ai",
+    "storage_bucket": "my-healthy-ai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650466907207:android:d5e6a8a3ec3a24188d8d62",
+        "android_client_info": {
+          "package_name": "com.example.my_healthy_ai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "650466907207-8p2u3cb3fuol12om1qpngnit0bpamskt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.my_healthy_ai",
+            "certificate_hash": "e0cc06452d20cb53f88d0a82598fcd541c8262dc"
+          }
+        },
+        {
+          "client_id": "650466907207-7jfoc7ak69ti4tiadjkf02nnf33l2i7q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsE9GN24BHqpH2NWDITO3jzDiaVDR2xCc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "650466907207-7jfoc7ak69ti4tiadjkf02nnf33l2i7q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "650466907207-a12h2pbu7rnjel19o2293qkocgokfgbc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myHealthyAi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -20,7 +20,7 @@ class InitialScreen extends StatelessWidget {
             Image.asset('assets/img/logo.png', width: 300, height: 300),
             const Text(
               'Welcome to My Healthy AI',
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             ElevatedButton(
               onPressed: () {
@@ -38,6 +38,13 @@ class InitialScreen extends StatelessWidget {
                 height: 20,
               ), //const Icon(FontAwesomeIcons.google),
               label: const Text('Login with Google'),
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                //Get.snackbar("Esteve Gay", "Login with Apple", icon: const Icon(Icons.apple), shouldIconPulse: false);
+              },
+              icon: const Icon(Icons.apple),
+              label: const Text('Login with Apple'),
             ),
           ],
         ),

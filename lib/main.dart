@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_healthy_ai/controllers/controllers.dart';
+import 'package:my_healthy_ai/firebase_options.dart';
 import 'package:my_healthy_ai/preferences/preferences.dart';
-import 'package:my_healthy_ai/screens/screens.dart';
+import 'package:my_healthy_ai/routes/app_pages.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await PreferencesTheme.init();
   Get.put(ThemeController());
+  Get.put(AuthController());
   runApp(MyApp(initialRoute: '/initialScreen'));
 }
 
@@ -22,15 +28,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'My Healthy AI',
       initialRoute: initialRoute,
-      getPages: [
-        GetPage(name: '/initialScreen', page: () => InitialScreen()),
-        GetPage(name: '/loginScreen', page: () => const LoginScreen()),
-        GetPage(
-            name: '/createAccountScreen',
-            page: () => const CreateAccountScreen()),
-        GetPage(name: '/homeScreen', page: () => const HomeScreen()),
-      ],
+      getPages: AppPages.routes,
       theme: themeController.currentTheme,
     );
   }
-}
+}                                                                                                                           
