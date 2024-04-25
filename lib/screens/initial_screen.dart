@@ -8,6 +8,7 @@ class InitialScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authController = Get.find<AuthController>();
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -29,8 +30,9 @@ class InitialScreen extends StatelessWidget {
               child: const Text('Login'),
             ),
             ElevatedButton.icon(
-              onPressed: () {
-                //logica para iniciar sesion con google
+              onPressed: () async {
+                await authController.loginWithGoogle();
+                Get.offNamed('/homeScreen');
               },
               icon: Image.asset(
                 'assets/icons/google_icon.png',

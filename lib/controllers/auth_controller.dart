@@ -25,4 +25,8 @@ class AuthController extends GetxController {
       password: passwordController.value.text,
     );
   }
+
+  loginWithGoogle() async {
+    firebaseUser.value = await AuthFirebaseRepository().sigInWithGoogle();
+  }
 }
