@@ -1,13 +1,36 @@
 import 'package:get/get.dart';
+import 'package:my_healthy_ai/controllers/controllers.dart';
 import 'package:my_healthy_ai/screens/screens.dart';
 
 class AppPages {
   static final routes = [
-    GetPage(name: '/initialScreen', page: () => InitialScreen()),
-    GetPage(name: '/loginScreen', page: () => const LoginScreen()),
+    GetPage(
+      name: '/initialScreen',
+      page: () => InitialScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<AuthController>(() => AuthController());
+      }),
+    ),
+    GetPage(
+      name: '/loginScreen',
+      page: () => const LoginScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<AuthController>(() => AuthController());
+      }),
+    ),
     GetPage(
       name: '/createAccountScreen',
-      page: () => const CreateAccountScreen()),
-    GetPage(name: '/homeScreen', page: () => const HomeScreen()),
+      page: () => const CreateAccountScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<AuthController>(() => AuthController());
+      }),
+    ),
+    GetPage(
+      name: '/homeScreen',
+      page: () => const HomeScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<AuthController>(() => AuthController());
+      }),
+    ),
   ];
 }

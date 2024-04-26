@@ -22,8 +22,7 @@ class CreateAccountForm extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.only(bottom: 35),
             child: Text('Create Account',
-                style: TextStyle(
-                    fontSize: 28, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
           ),
           TextFormField(
             controller: authController.usernameController,
@@ -37,8 +36,7 @@ class CreateAccountForm extends StatelessWidget {
                 ? MyColors.midnightGreen
                 : MyColors.prussianBlue,
             decoration: CustomInputDecoration.buildInputDecoration(
-                labelText: 'Username',
-                themeController: themeController),
+                labelText: 'Username', themeController: themeController),
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16),
@@ -119,17 +117,16 @@ class CreateAccountForm extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () => {
+            onPressed: () async {
               if (_formKey.currentState!.validate()) {
-                authController.registerWithEmailAndPassword(),
-                Get.snackbar("Congrats", "You are registered!", snackPosition: SnackPosition.BOTTOM),
+                await authController.registerWithEmailAndPassword();
+                Get.offAllNamed('/homeScreen');
               }
             },
             child: const Text('Create Account'),
           ),
           Padding(
-            padding:
-                const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 12),
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 12),
             child: RichText(
               text: TextSpan(
                 children: [

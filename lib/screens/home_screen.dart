@@ -12,15 +12,26 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Screen'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () async {
+              await authController.signOut();
+              Get.offAllNamed('/initialScreen');
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              firebaseUser != null ? (firebaseUser.displayName ?? 'No Username available') : 'No user logged in',
+              firebaseUser?.displayName?.isNotEmpty == true
+                  ? firebaseUser!.displayName!
+                  : 'No name',
               style: const TextStyle(fontSize: 24),
-            ),
+            )
           ],
         ),
       ),

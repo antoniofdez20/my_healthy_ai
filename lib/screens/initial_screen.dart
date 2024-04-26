@@ -25,6 +25,7 @@ class InitialScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
+                authController.resetCredentials();
                 Get.toNamed('/loginScreen');
               },
               child: const Text('Login'),
@@ -32,7 +33,7 @@ class InitialScreen extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: () async {
                 await authController.loginWithGoogle();
-                Get.offNamed('/homeScreen');
+                Get.offAllNamed('/homeScreen');
               },
               icon: Image.asset(
                 'assets/icons/google_icon.png',
@@ -40,13 +41,6 @@ class InitialScreen extends StatelessWidget {
                 height: 20,
               ), //const Icon(FontAwesomeIcons.google),
               label: const Text('Login with Google'),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                //Get.snackbar("Esteve Gay", "Login with Apple", icon: const Icon(Icons.apple), shouldIconPulse: false);
-              },
-              icon: const Icon(Icons.apple),
-              label: const Text('Login with Apple'),
             ),
           ],
         ),

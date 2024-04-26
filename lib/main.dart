@@ -14,22 +14,23 @@ void main() async {
   await PreferencesTheme.init();
   Get.put(ThemeController());
   Get.put(AuthController());
-  runApp(MyApp(initialRoute: '/initialScreen'));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final String initialRoute;
-  MyApp({super.key, required this.initialRoute});
+  MyApp({super.key});
   final ThemeController themeController = Get.find<ThemeController>();
-
+  final authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'My Healthy AI',
-      initialRoute: initialRoute,
+      initialRoute: authController.firebaseUser.value?.uid != null
+          ? '/homeScreen'
+          : '/initialScreen',
       getPages: AppPages.routes,
       theme: themeController.currentTheme,
     );
   }
-}                                                                                                                           
+}

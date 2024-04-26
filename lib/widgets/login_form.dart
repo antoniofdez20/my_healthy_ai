@@ -22,8 +22,7 @@ class LoginForm extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.only(bottom: 35),
             child: Text('Welcome',
-                style: TextStyle(
-                    fontSize: 28, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
           ),
           TextFormField(
             controller: authController.emailController,
@@ -37,8 +36,7 @@ class LoginForm extends StatelessWidget {
                 ? MyColors.midnightGreen
                 : MyColors.prussianBlue,
             decoration: CustomInputDecoration.buildInputDecoration(
-                labelText: 'Email',
-                themeController: themeController),
+                labelText: 'Email', themeController: themeController),
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16),
@@ -73,18 +71,16 @@ class LoginForm extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () => {
+            onPressed: () async {
               if (_formKey.currentState!.validate()) {
-                authController.loginWithEmailAndPassword(),
-                Get.snackbar("Congrats", "You are logged in!", snackPosition: SnackPosition.BOTTOM),
-                Get.offAllNamed('/homeScreen'),
+                await authController.loginWithEmailAndPassword();
+                Get.offAllNamed('/homeScreen');
               }
             },
             child: const Text('Login'),
           ),
           Padding(
-            padding:
-                const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 12),
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 12),
             child: RichText(
               text: TextSpan(
                 children: [
