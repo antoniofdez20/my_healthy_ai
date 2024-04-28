@@ -40,33 +40,34 @@ class LoginForm extends StatelessWidget {
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16),
-          TextFormField(
-            controller: authController.passwordController,
-            validator: formValidator.isValidPass,
-            style: TextStyle(
-              color: themeController.isDarkMode.value
+          Obx(
+            () => TextFormField(
+              controller: authController.passwordController,
+              validator: formValidator.isValidPass,
+              style: TextStyle(
+                color: themeController.isDarkMode.value
+                    ? MyColors.midnightGreen
+                    : MyColors.prussianBlue,
+              ),
+              cursorColor: themeController.isDarkMode.value
                   ? MyColors.midnightGreen
                   : MyColors.prussianBlue,
-            ),
-            cursorColor: themeController.isDarkMode.value
-                ? MyColors.midnightGreen
-                : MyColors.prussianBlue,
-            //obscureText: !controller.isPasswordVisible.value,
-            decoration: CustomInputDecoration.buildInputDecoration(
-              labelText: 'Password',
-              themeController: themeController,
-              /* suffixIcon: IconButton(
+              obscureText: authController.isPassObscured.value,
+              decoration: CustomInputDecoration.buildInputDecoration(
+                labelText: 'Password',
+                themeController: themeController,
+                suffixIcon: IconButton(
                   icon: Icon(
-                    controller.isPasswordVisible.value
-                        ? Icons.visibility
-                        : Icons.visibility_off_outlined,
+                    authController.isPassObscured.value
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility,
                     color: themeController.isDarkMode.value
-                        ? MyColors.amber
-                        : MyColors.greenVogue,
+                        ? MyColors.midnightGreen
+                        : MyColors.prussianBlue,
                   ),
-                  onPressed: () =>
-                      controller.togglePasswordVisibility(),
-                ), */
+                  onPressed: () => authController.togglePasswordVisibility(),
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 16),

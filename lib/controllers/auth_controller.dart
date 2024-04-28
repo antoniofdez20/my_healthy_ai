@@ -10,6 +10,8 @@ class AuthController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  RxBool isPassObscured = true.obs;
+  RxBool isConfirmPassObscured = true.obs;
   Rxn<User?> firebaseUser = Rxn<User?>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -92,5 +94,13 @@ class AuthController extends GetxController {
     emailController.clear();
     passwordController.clear();
     confirmPasswordController.clear();
+  }
+
+  void togglePasswordVisibility() {
+    isPassObscured.value = !isPassObscured.value;
+  }
+
+  void toggleConfirmPasswordVisibility() {
+    isConfirmPassObscured.value = !isConfirmPassObscured.value;
   }
 }

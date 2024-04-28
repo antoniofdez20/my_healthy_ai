@@ -56,63 +56,69 @@ class CreateAccountForm extends StatelessWidget {
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16),
-          TextFormField(
-            controller: authController.passwordController,
-            validator: formValidator.isValidPass,
-            style: TextStyle(
-              color: themeController.isDarkMode.value
+          Obx(
+            () => TextFormField(
+              controller: authController.passwordController,
+              validator: formValidator.isValidPass,
+              style: TextStyle(
+                color: themeController.isDarkMode.value
+                    ? MyColors.midnightGreen
+                    : MyColors.prussianBlue,
+              ),
+              cursorColor: themeController.isDarkMode.value
                   ? MyColors.midnightGreen
                   : MyColors.prussianBlue,
-            ),
-            cursorColor: themeController.isDarkMode.value
-                ? MyColors.midnightGreen
-                : MyColors.prussianBlue,
-            obscureText: true,
-            decoration: CustomInputDecoration.buildInputDecoration(
-              labelText: 'Password',
-              themeController: themeController,
-              /* suffixIcon: IconButton(
+              obscureText: authController.isPassObscured.value,
+              decoration: CustomInputDecoration.buildInputDecoration(
+                labelText: 'Password',
+                themeController: themeController,
+                suffixIcon: IconButton(
                   icon: Icon(
-                    controller.isPasswordVisible.value
-                        ? Icons.visibility
-                        : Icons.visibility_off_outlined,
+                    authController.isPassObscured.value
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility,
                     color: themeController.isDarkMode.value
-                        ? MyColors.amber
-                        : MyColors.greenVogue,
+                        ? MyColors.midnightGreen
+                        : MyColors.prussianBlue,
                   ),
-                  onPressed: () =>
-                      controller.togglePasswordVisibility(),
-                ), */
+                  onPressed: () => authController.togglePasswordVisibility(),
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 16),
-          TextFormField(
-            controller: authController.confirmPasswordController,
-            validator: formValidator.isValidPass,
-            style: TextStyle(
-              color: themeController.isDarkMode.value
+          Obx(
+            () => TextFormField(
+              controller: authController.confirmPasswordController,
+              validator: (value) => formValidator.isValidPassConfirmed(
+                authController.passwordController.text,
+                authController.confirmPasswordController.text,
+              ),
+              style: TextStyle(
+                color: themeController.isDarkMode.value
+                    ? MyColors.midnightGreen
+                    : MyColors.prussianBlue,
+              ),
+              cursorColor: themeController.isDarkMode.value
                   ? MyColors.midnightGreen
                   : MyColors.prussianBlue,
-            ),
-            cursorColor: themeController.isDarkMode.value
-                ? MyColors.midnightGreen
-                : MyColors.prussianBlue,
-            obscureText: true,
-            decoration: CustomInputDecoration.buildInputDecoration(
-              labelText: 'Confirm Password',
-              themeController: themeController,
-              /* suffixIcon: IconButton(
+              obscureText: authController.isConfirmPassObscured.value,
+              decoration: CustomInputDecoration.buildInputDecoration(
+                labelText: 'Confirm Password',
+                themeController: themeController,
+                suffixIcon: IconButton(
                   icon: Icon(
-                    controller.isPasswordVisible.value
-                        ? Icons.visibility
-                        : Icons.visibility_off_outlined,
+                    authController.isConfirmPassObscured.value
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility,
                     color: themeController.isDarkMode.value
-                        ? MyColors.amber
-                        : MyColors.greenVogue,
+                        ? MyColors.midnightGreen
+                        : MyColors.prussianBlue,
                   ),
                   onPressed: () =>
-                      controller.togglePasswordVisibility(),
-                ), */
+                      authController.toggleConfirmPasswordVisibility(),
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 16),
