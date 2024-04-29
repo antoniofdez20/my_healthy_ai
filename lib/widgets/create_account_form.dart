@@ -122,13 +122,22 @@ class CreateAccountForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                await authController.registerWithEmailAndPassword();
-              }
-            },
-            child: const Text('Create Account'),
+          Obx(
+            () => ElevatedButton(
+              onPressed: authController.isLoading.value
+                  ? null
+                  : () async {
+                      if (_formKey.currentState!.validate()) {
+                        await authController.registerWithEmailAndPassword();
+                      } else {
+                        FormValidator()
+                            .showSnackbarError("Please check the form data");
+                      }
+                    },
+              child: authController.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : const Text('Register'),
+            ),
           ),
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 12),

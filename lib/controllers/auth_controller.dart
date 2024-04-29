@@ -11,6 +11,7 @@ class AuthController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  RxBool isLoading = false.obs;
   RxBool isPassObscured = true.obs;
   RxBool isConfirmPassObscured = true.obs;
   Rxn<User?> firebaseUser = Rxn<User?>();
@@ -42,6 +43,7 @@ class AuthController extends GetxController {
   }
 
   registerWithEmailAndPassword() async {
+    isLoading.value = true;
     try {
       firebaseUser.value =
           await AuthFirebaseRepository().registerWithEmailAndPassword(
@@ -55,10 +57,13 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       _validator.showSnackbarError(e.toString());
+    } finally {
+      isLoading.value = false;
     }
   }
 
   loginWithEmailAndPassword() async {
+    isLoading.value = true;
     try {
       firebaseUser.value =
           await AuthFirebaseRepository().loginWithEmailAndPassword(
@@ -72,6 +77,8 @@ class AuthController extends GetxController {
     } catch (e) {
       // Captura de cualquier otro tipo de error
       _validator.showSnackbarError(e.toString());
+    } finally {
+      isLoading.value = false;
     }
   }
 

@@ -12,6 +12,11 @@ class AuthFirebaseRepository {
       required String password,
       required String userName}) async {
     try {
+      if (await _firestoreRepository.isUsernameTaken(userName)) {
+        _validator.showSnackbarError(
+            'This username is taken. Please try another one.');
+        return null;
+      }
       final userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 
@@ -19,7 +24,6 @@ class AuthFirebaseRepository {
 
       if (user != null) {
         await user.updateDisplayName(userName);
-        //await user.reload();
         user = FirebaseAuth.instance.currentUser;
 
         if (user?.displayName == userName) {
@@ -59,7 +63,7 @@ class AuthFirebaseRepository {
       } else if (e.code == 'user-disabled') {
         _validator.showSnackbarError("This user has been disabled.");
       } else {
-        _validator.showSnackbarError("An undefined Error happened.");
+        _validator.showSnackbarError("User credential is incorrect.");
       }
       return null;
     } catch (e) {

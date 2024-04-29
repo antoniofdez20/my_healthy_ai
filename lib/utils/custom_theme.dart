@@ -22,6 +22,10 @@ class MyTheme {
           foregroundColor: Colors.black,
         ),
       ),
+
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: MyColors.uranianBlue,
+      ),
     );
   }
 

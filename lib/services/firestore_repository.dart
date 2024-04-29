@@ -15,4 +15,12 @@ class FirestoreRepository {
       'recetas_favoritas': []
     }, SetOptions(merge: true));
   }
+
+  Future<bool> isUsernameTaken(String username) async {
+    final QuerySnapshot result = await _firestore
+        .collection('users')
+        .where('username', isEqualTo: username)
+        .get();
+    return result.docs.isNotEmpty;
+  }
 }

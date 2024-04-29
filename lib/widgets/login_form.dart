@@ -71,16 +71,22 @@ class LoginForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                await authController.loginWithEmailAndPassword();
-              } else {
-                Get.snackbar("Error", "Please check the form data",
-                    shouldIconPulse: false);
-              }
-            },
-            child: const Text('Login'),
+          Obx(
+            () => ElevatedButton(
+              onPressed: authController.isLoading.value
+                  ? null //desactiva el boton
+                  : () async {
+                      if (_formKey.currentState!.validate()) {
+                        await authController.loginWithEmailAndPassword();
+                      } else {
+                        FormValidator()
+                            .showSnackbarError("Please check the form data");
+                      }
+                    },
+              child: authController.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : const Text('Login'),
+            ),
           ),
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 12),
