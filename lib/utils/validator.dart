@@ -17,9 +17,9 @@ class FormValidator {
   String? isValidPass(String? text) {
     if (text == null || text.isEmpty) return 'La contrasenya és obligatoria';
 
-    final regex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$');
+    final regex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
     if (!regex.hasMatch(text)) {
-      return 'La contrasenya ha de tenir almenys 6 caràcters, lletres i números';
+      return 'La contrasenya ha de tenir almenys 8 caràcters, lletres i números';
     }
 
     return null;

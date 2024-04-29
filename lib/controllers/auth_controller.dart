@@ -47,6 +47,7 @@ class AuthController extends GetxController {
           await AuthFirebaseRepository().registerWithEmailAndPassword(
         email: emailController.value.text,
         password: passwordController.value.text,
+        userName: usernameController.value.text,
       );
       if (firebaseUser.value != null) {
         Get.offAllNamed('/homeScreen');

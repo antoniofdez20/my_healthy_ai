@@ -8,7 +8,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authController = Get.find<AuthController>();
-    final firebaseUser = authController.firebaseUser.value;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Screen'),
@@ -26,12 +25,15 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              firebaseUser?.displayName?.isNotEmpty == true
-                  ? firebaseUser!.displayName!
-                  : 'No name',
-              style: const TextStyle(fontSize: 24),
-            )
+            Obx(() {
+              // Usando Obx para manejar la actualización reactiva
+              final firebaseUser = authController.firebaseUser.value;
+              return Text(
+                firebaseUser?.displayName ??
+                    'No name', // Actualizado para usar el operador '??'
+                style: const TextStyle(fontSize: 24),
+              );
+            })
           ],
         ),
       ),

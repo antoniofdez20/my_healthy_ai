@@ -1,16 +1,31 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:my_healthy_ai/services/services.dart';
 import 'package:my_healthy_ai/utils/utils.dart';
 
 class AuthFirebaseRepository {
   final _validator = FormValidator();
+  final _firestoreRepository = FirestoreRepository();
+
   Future<User?> registerWithEmailAndPassword(
-      {required String email, required String password}) async {
+      {required String email,
+      required String password,
+      required String userName}) async {
     try {
       final userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 
       User? user = userCredential.user;
+
+      if (user != null) {
+        await user.updateDisplayName(userName);
+        //await user.reload();
+        user = FirebaseAuth.instance.currentUser;
+
+        if (user?.displayName == userName) {
+          await _firestoreRepository.addUser(user!, "FirebaseAuth");
+        }
+      }
 
       return user;
     } on FirebaseAuthException catch (e) {
