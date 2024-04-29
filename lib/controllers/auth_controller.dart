@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_healthy_ai/auth/auth_firebase_repository.dart';
+import 'package:my_healthy_ai/utils/utils.dart';
 
 class AuthController extends GetxController {
   TextEditingController usernameController = TextEditingController();
@@ -15,6 +16,7 @@ class AuthController extends GetxController {
   Rxn<User?> firebaseUser = Rxn<User?>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final _validator = FormValidator();
 
   //funcion para conocer si el usuario esta logueado o no
   Stream<User?> get userStream => _auth.authStateChanges();
@@ -29,6 +31,7 @@ class AuthController extends GetxController {
     }); */
   }
 
+  //cerrando los controladores al cerrar el authcontroller evitamos fugas de memoria
   @override
   void onClose() {
     usernameController.dispose();
@@ -45,9 +48,12 @@ class AuthController extends GetxController {
         email: emailController.value.text,
         password: passwordController.value.text,
       );
-      Get.snackbar("Congrats", "You are registered!", shouldIconPulse: false);
+      if (firebaseUser.value != null) {
+        Get.offAllNamed('/homeScreen');
+        _validator.showSnackbarSuccess("You are registered!");
+      }
     } catch (e) {
-      Get.snackbar("Error", e.toString(), shouldIconPulse: false);
+      _validator.showSnackbarError(e.toString());
     }
   }
 
@@ -58,20 +64,26 @@ class AuthController extends GetxController {
         email: emailController.value.text,
         password: passwordController.value.text,
       );
+      if (firebaseUser.value != null) {
+        Get.offAllNamed('/homeScreen');
+        _validator.showSnackbarSuccess("You are logged in!");
+      }
     } catch (e) {
-      Get.snackbar("Error", e.toString(), shouldIconPulse: false);
+      // Captura de cualquier otro tipo de error
+      _validator.showSnackbarError(e.toString());
     }
-
-    Get.snackbar("Congrats", "You are logged in!", shouldIconPulse: false);
   }
 
   loginWithGoogle() async {
     try {
       firebaseUser.value = await AuthFirebaseRepository().sigInWithGoogle();
 
-      Get.snackbar("Congrats", "You are logged in!", shouldIconPulse: false);
+      if (firebaseUser.value != null) {
+        Get.offAllNamed('/homeScreen');
+        _validator.showSnackbarSuccess("You are logged in!");
+      }
     } catch (e) {
-      Get.snackbar("Error", e.toString(), shouldIconPulse: false);
+      _validator.showSnackbarError(e.toString());
     }
   }
 

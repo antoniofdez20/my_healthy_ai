@@ -75,7 +75,9 @@ class LoginForm extends StatelessWidget {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 await authController.loginWithEmailAndPassword();
-                Get.offAllNamed('/homeScreen');
+              } else {
+                Get.snackbar("Error", "Please check the form data",
+                    shouldIconPulse: false);
               }
             },
             child: const Text('Login'),

@@ -126,7 +126,6 @@ class CreateAccountForm extends StatelessWidget {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 await authController.registerWithEmailAndPassword();
-                Get.offAllNamed('/homeScreen');
               }
             },
             child: const Text('Create Account'),
@@ -155,6 +154,7 @@ class CreateAccountForm extends StatelessWidget {
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         Get.offNamed('/loginScreen');
+                        authController.resetCredentials();
                       },
                   ),
                 ],
