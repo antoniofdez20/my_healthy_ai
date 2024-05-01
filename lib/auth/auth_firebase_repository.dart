@@ -24,6 +24,8 @@ class AuthFirebaseRepository {
 
       if (user != null) {
         await user.updateDisplayName(userName);
+        await user.updatePhotoURL(
+            "https://cdn.midjourney.com/b3b391ea-a529-4917-8f62-239e5d09db52/grid_0_640_N.webp");
         user = FirebaseAuth.instance.currentUser;
 
         if (user?.displayName == userName) {

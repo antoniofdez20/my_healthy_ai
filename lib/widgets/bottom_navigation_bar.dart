@@ -12,6 +12,7 @@ class CustomNavigationBar extends StatelessWidget {
     return BottomAppBar(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
             icon: const Icon(Icons.home),
@@ -36,7 +37,7 @@ class CustomNavigationBar extends StatelessWidget {
               radius: 20,
               backgroundImage: user?.photoURL != null
                   ? NetworkImage(user!.photoURL!)
-                  : const AssetImage('assets/img/placeholder_logo.webp')
+                  : const AssetImage('assets/img/avatar_user.png')
                       as ImageProvider,
             ),
           ),
