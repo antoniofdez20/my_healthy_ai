@@ -81,17 +81,25 @@ class AuthFirebaseRepository {
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
 
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
+      if (googleAuth != null) {
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
 
-      return await FirebaseAuth.instance
-          .signInWithCredential(credential)
-          .then((UserCredential userCredential) {
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
         User? user = userCredential.user;
+
+        if (user != null) {
+          // Llamar a addUser para registrar o actualizar la información del usuario en Firestore
+          await _firestoreRepository.addUser(user, "Google");
+        }
+
         return user;
-      });
+      } else {
+        return null;
+      }
     } catch (e) {
       _validator.showSnackbarError(e.toString());
       return null;

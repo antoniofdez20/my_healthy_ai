@@ -89,6 +89,8 @@ class AuthController extends GetxController {
       if (firebaseUser.value != null) {
         Get.offAllNamed('/homeScreen');
         _validator.showSnackbarSuccess("You are logged in!");
+      } else {
+        _validator.showSnackbarError("Google Sign In failed");
       }
     } catch (e) {
       _validator.showSnackbarError(e.toString());
