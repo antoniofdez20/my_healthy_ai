@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomNavigationBar extends StatelessWidget {
-  const CustomNavigationBar({super.key});
+  final User? user;
+  const CustomNavigationBar({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class CustomNavigationBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
-            icon: const Icon(Icons.home, color: Color(0xFF38CB98)),
+            icon: const Icon(Icons.home),
             onPressed: () {
               if (currentRoute != '/homeScreen') {
                 Get.offNamed('/homeScreen');
@@ -21,19 +23,22 @@ class CustomNavigationBar extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.wechat), // o tambien el icono adb
-            onPressed: () {
-              if (currentRoute != '/settingsScreen') {
-                Get.offNamed('/settingsScreen');
-              }
-            },
+            onPressed: () {},
           ),
-          IconButton(
-            icon: const Icon(Icons.account_circle),
-            onPressed: () {
+          GestureDetector(
+            onTap: () {
               if (currentRoute != '/profileScreen') {
-                Get.offNamed('/profileScreen');
+                Get.offAllNamed('/profileScreen');
               }
             },
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 20,
+              backgroundImage: user?.photoURL != null
+                  ? NetworkImage(user!.photoURL!)
+                  : const AssetImage('assets/img/placeholder_logo.webp')
+                      as ImageProvider,
+            ),
           ),
         ],
       ),

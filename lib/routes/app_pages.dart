@@ -32,5 +32,12 @@ class AppPages {
         Get.lazyPut<AuthController>(() => AuthController());
       }),
     ),
+    GetPage(
+      name: '/profileScreen',
+      page: () => const ProfileScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<AuthController>(() => AuthController());
+      }),
+    ),
   ];
 }

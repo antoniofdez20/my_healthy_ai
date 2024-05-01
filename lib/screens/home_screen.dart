@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_healthy_ai/controllers/controllers.dart';
+import 'package:my_healthy_ai/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -36,6 +37,9 @@ class HomeScreen extends StatelessWidget {
             })
           ],
         ),
+      ),
+      bottomNavigationBar: CustomNavigationBar(
+        user: authController.firebaseUser.value,
       ),
     );
   }
