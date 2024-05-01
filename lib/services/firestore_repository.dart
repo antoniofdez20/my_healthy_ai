@@ -23,4 +23,9 @@ class FirestoreRepository {
         .get();
     return result.docs.isNotEmpty;
   }
+
+  Future<void> deleteAccount(User user) async {
+    DocumentReference userDocRef = _firestore.collection('users').doc(user.uid);
+    await userDocRef.delete();
+  }
 }
