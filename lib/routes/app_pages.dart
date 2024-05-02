@@ -39,5 +39,12 @@ class AppPages {
         Get.lazyPut<AuthController>(() => AuthController());
       }),
     ),
+    GetPage(
+      name: '/verifyAccountScreen',
+      page: () => const VerifyAccountScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<AuthController>(() => AuthController());
+      }),
+    ),
   ];
 }

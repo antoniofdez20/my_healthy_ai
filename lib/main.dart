@@ -27,7 +27,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'My Healthy AI',
       initialRoute: authController.firebaseUser.value?.uid != null
-          ? '/homeScreen'
+          ? authController.firebaseUser.value?.emailVerified == true
+              ? '/homeScreen'
+              : '/verifyAccountScreen'
           : '/initialScreen',
       getPages: AppPages.routes,
       theme: themeController.currentTheme,

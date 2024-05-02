@@ -17,6 +17,7 @@ class AuthController extends GetxController {
   Rxn<User?> firebaseUser = Rxn<User?>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final _authFirebaseRepository = AuthFirebaseRepository();
   final _validator = FormValidator();
 
   //funcion para conocer si el usuario esta logueado o no
@@ -46,15 +47,35 @@ class AuthController extends GetxController {
     isLoading.value = true;
     try {
       firebaseUser.value =
-          await AuthFirebaseRepository().registerWithEmailAndPassword(
+          await _authFirebaseRepository.registerWithEmailAndPassword(
         email: emailController.value.text,
         password: passwordController.value.text,
         userName: usernameController.value.text,
       );
       if (firebaseUser.value != null) {
-        Get.offAllNamed('/homeScreen');
+        Get.offAllNamed('/verifyAccountScreen');
         _validator.showSnackbarSuccess("You are registered!");
       }
+    } catch (e) {
+      _validator.showSnackbarError(e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  verifyEmail() async {
+    isLoading.value = true;
+    try {
+      _validator.showSnackbarSuccess("Email verification sent!");
+      await firebaseUser.value?.sendEmailVerification();
+      firebaseUser.value = _auth.currentUser;
+      while (firebaseUser.value!.emailVerified == false) {
+        await Future.delayed(const Duration(seconds: 5));
+        await firebaseUser.value!.reload();
+        firebaseUser.value = _auth.currentUser;
+      }
+      Get.offAllNamed('/homeScreen');
+      _validator.showSnackbarSuccess("Email verified!");
     } catch (e) {
       _validator.showSnackbarError(e.toString());
     } finally {
@@ -66,7 +87,7 @@ class AuthController extends GetxController {
     isLoading.value = true;
     try {
       firebaseUser.value =
-          await AuthFirebaseRepository().loginWithEmailAndPassword(
+          await _authFirebaseRepository.loginWithEmailAndPassword(
         email: emailController.value.text,
         password: passwordController.value.text,
       );
@@ -84,7 +105,7 @@ class AuthController extends GetxController {
 
   loginWithGoogle() async {
     try {
-      firebaseUser.value = await AuthFirebaseRepository().sigInWithGoogle();
+      firebaseUser.value = await _authFirebaseRepository.sigInWithGoogle();
 
       if (firebaseUser.value != null) {
         Get.offAllNamed('/homeScreen');
@@ -109,6 +130,16 @@ class AuthController extends GetxController {
 
     // Siempre cierra la sesión de Firebase
     await _auth.signOut();
+  }
+
+  deleteAccount() async {
+    try {
+      await _authFirebaseRepository.deleteUser(firebaseUser.value!);
+      Get.offAllNamed('/initialScreen');
+      _validator.showSnackbarSuccess("Account deleted!");
+    } catch (e) {
+      _validator.showSnackbarError(e.toString());
+    }
   }
 
   resetCredentials() {

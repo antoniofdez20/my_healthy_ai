@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:my_healthy_ai/utils/utils.dart';
 
 class FirestoreRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final _validator = FormValidator();
 
   Future<void> addUser(User user, String loginMethod) async {
     DocumentReference userDocRef = _firestore.collection('users').doc(user.uid);
@@ -25,7 +27,12 @@ class FirestoreRepository {
   }
 
   Future<void> deleteAccount(User user) async {
-    DocumentReference userDocRef = _firestore.collection('users').doc(user.uid);
-    await userDocRef.delete();
+    try {
+      DocumentReference userDocRef =
+          _firestore.collection('users').doc(user.uid);
+      await userDocRef.delete();
+    } catch (e) {
+      _validator.showSnackbarError("Failed to delete account: ${e.toString()}");
+    }
   }
 }

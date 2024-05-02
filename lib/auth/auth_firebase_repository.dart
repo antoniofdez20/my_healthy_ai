@@ -105,4 +105,17 @@ class AuthFirebaseRepository {
       return null;
     }
   }
+
+  Future<void> deleteUser(User? user) async {
+    try {
+      if (user != null) {
+        await _firestoreRepository.deleteAccount(user);
+        await user.delete();
+      } else {
+        _validator.showSnackbarError("User is null");
+      }
+    } catch (e) {
+      _validator.showSnackbarError(e.toString());
+    }
+  }
 }
