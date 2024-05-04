@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,7 +37,7 @@ class CustomNavigationBar extends StatelessWidget {
               backgroundColor: Colors.white,
               radius: 20,
               backgroundImage: user?.photoURL != null
-                  ? NetworkImage(user!.photoURL!)
+                  ? CachedNetworkImageProvider(user!.photoURL!)
                   : const AssetImage('assets/img/avatar_user.png')
                       as ImageProvider,
             ),

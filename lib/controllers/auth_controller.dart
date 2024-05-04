@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import 'package:my_healthy_ai/auth/auth_firebase_repository.dart';
 import 'package:my_healthy_ai/utils/utils.dart';
 
@@ -155,5 +156,15 @@ class AuthController extends GetxController {
 
   void toggleConfirmPasswordVisibility() {
     isConfirmPassObscured.value = !isConfirmPassObscured.value;
+  }
+
+  String getUserCreationDate() {
+    if (firebaseUser.value != null) {
+      DateTime? creationDate = firebaseUser.value!.metadata.creationTime;
+      String formattedDate = DateFormat('dd-MM-yy').format(creationDate!);
+      return 'Registered since $formattedDate';
+    } else {
+      return 'No date';
+    }
   }
 }
