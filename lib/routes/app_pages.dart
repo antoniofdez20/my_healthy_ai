@@ -46,5 +46,19 @@ class AppPages {
         Get.lazyPut<AuthController>(() => AuthController());
       }),
     ),
+    GetPage(
+      name: '/chatScreen',
+      page: () => const ChatScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<AuthController>(() => AuthController());
+      }),
+    ),
+    GetPage(
+      name: '/detailsScreen',
+      page: () => const DetailsScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<AuthController>(() => AuthController());
+      }),
+    ),
   ];
 }

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_healthy_ai/utils/utils.dart';
 
 class CustomNavigationBar extends StatelessWidget {
   final User? user;
@@ -16,16 +17,26 @@ class CustomNavigationBar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
-            icon: const Icon(Icons.home),
+            icon: Icon(
+              Icons.home,
+              color: currentRoute != '/homeScreen' ? null : MyColors.mint,
+            ),
             onPressed: () {
               if (currentRoute != '/homeScreen') {
-                Get.offNamed('/homeScreen');
+                Get.offAllNamed('/homeScreen');
               }
             },
           ),
           IconButton(
-            icon: const Icon(Icons.wechat), // o tambien el icono adb
-            onPressed: () {},
+            icon: Icon(
+              Icons.wechat,
+              color: currentRoute != '/chatScreen' ? null : MyColors.mint,
+            ), // o tambien el icono adb
+            onPressed: () {
+              if (currentRoute != '/chatScreen') {
+                Get.offAllNamed('/chatScreen');
+              }
+            },
           ),
           GestureDetector(
             onTap: () {
@@ -40,6 +51,18 @@ class CustomNavigationBar extends StatelessWidget {
                   ? CachedNetworkImageProvider(user!.photoURL!)
                   : const AssetImage('assets/img/avatar_user.png')
                       as ImageProvider,
+              /* child: ClipOval(
+                child: user?.photoURL != null
+                    ? FadeInImage(
+                        placeholder:
+                            const AssetImage('assets/img/avatar_user.png')
+                                as ImageProvider,
+                        image: Image.network(user!.photoURL!).image,
+                      )
+                    : const Image(
+                        image: AssetImage('assets/img/avatar_user.png'),
+                      ),
+              ), */
             ),
           ),
         ],

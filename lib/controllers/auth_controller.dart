@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:my_healthy_ai/auth/auth_firebase_repository.dart';
+import 'package:my_healthy_ai/models/models.dart';
 import 'package:my_healthy_ai/utils/utils.dart';
 
 class AuthController extends GetxController {
@@ -12,10 +14,12 @@ class AuthController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
   RxBool isLoading = false.obs;
   RxBool isPassObscured = true.obs;
   RxBool isConfirmPassObscured = true.obs;
   Rxn<User?> firebaseUser = Rxn<User?>();
+  RxList<Message> messages = <Message>[].obs;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final _authFirebaseRepository = AuthFirebaseRepository();
@@ -166,5 +170,16 @@ class AuthController extends GetxController {
     } else {
       return 'No date';
     }
+  }
+
+  void sendMessage() {
+    var message = Message(
+      text: messageController.text,
+      date: DateTime.now(),
+      isSentByUser: true,
+    );
+    messages.add(message);
+    messageController.clear();
+    update();
   }
 }
