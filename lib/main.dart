@@ -14,6 +14,7 @@ void main() async {
   await PreferencesTheme.init();
   Get.put(ThemeController());
   Get.put(AuthController());
+  Get.put(RecetasController());
   runApp(MyApp());
 }
 

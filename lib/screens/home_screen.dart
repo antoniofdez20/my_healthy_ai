@@ -9,33 +9,32 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authController = Get.find<AuthController>();
+    final recetasController = Get.find<RecetasController>();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Screen'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.exit_to_app),
-            onPressed: () async {
-              await authController.signOut();
-              Get.offAllNamed('/initialScreen');
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Obx(() {
-              // Usando Obx para manejar la actualización reactiva
-              final firebaseUser = authController.firebaseUser.value;
-              return Text(
-                firebaseUser?.displayName ??
-                    'No name', // Actualizado para usar el operador '??'
-                style: const TextStyle(fontSize: 24),
-              );
-            })
-          ],
+      body: Obx(
+        () => ListView.builder(
+          itemCount: recetasController.recetas.length,
+          itemBuilder: (context, index) {
+            final receta = recetasController.recetas[index];
+            return Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: const EdgeInsets.all(10),
+              child: ListTile(
+                leading: Image.asset(receta['image']),
+                title: Text(receta['title']),
+                subtitle: Text(receta['description']),
+                trailing: IconButton(
+                  icon: receta['isFavourite']
+                      ? const Icon(Icons.favorite, color: Colors.red)
+                      : const Icon(Icons.favorite_border),
+                  onPressed: () => recetasController.toggleFavourite(index),
+                ),
+              ),
+            );
+          },
         ),
       ),
       bottomNavigationBar: CustomNavigationBar(
