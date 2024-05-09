@@ -38,6 +38,7 @@ class AppPages {
       page: () => const ProfileScreen(),
       binding: BindingsBuilder(() {
         Get.lazyPut<AuthController>(() => AuthController());
+        Get.lazyPut<RecetasController>(() => RecetasController());
       }),
     ),
     GetPage(

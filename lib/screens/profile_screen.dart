@@ -11,6 +11,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final authController = Get.find<AuthController>();
     final user = authController.firebaseUser.value;
+    final recetasController = Get.find<RecetasController>();
     return Scaffold(
       body: Container(
         height: double.infinity,
@@ -48,15 +49,38 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            const Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Favourite Recipes',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            const Text(
+              'Favourite Recipes',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Expanded(
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: recetasController.recetas.length,
+                  itemBuilder: (context, index) {
+                    final receta = recetasController.recetas[index];
+                    return Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      margin: const EdgeInsets.all(8),
+                      child: ListTile(
+                        leading: Image.asset(receta['image']),
+                        title: Text(receta['title']),
+                        subtitle: Text(receta['description']),
+                        trailing: IconButton(
+                          icon: receta['isFavourite']
+                              ? const Icon(Icons.favorite, color: Colors.red)
+                              : const Icon(Icons.favorite_border),
+                          onPressed: () =>
+                              recetasController.toggleFavourite(index),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              ],
+              ),
             ),
           ],
         ),

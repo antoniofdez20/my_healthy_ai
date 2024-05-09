@@ -1,7 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RecetasController extends GetxController {
   final RxList<Map<String, dynamic>> recetas = <Map<String, dynamic>>[].obs;
+  TextEditingController searchController = TextEditingController();
+  final List<String> filtros = [
+    'Carne',
+    'Pescado',
+    'Vegetariano',
+    'Comida',
+    'Cena',
+    'Postre',
+    'Desayuno',
+  ];
 
   @override
   void onInit() {

@@ -6,6 +6,7 @@ import 'package:my_healthy_ai/models/models.dart';
 import 'package:my_healthy_ai/utils/utils.dart';
 import 'package:my_healthy_ai/widgets/bottom_navigation_bar.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:my_healthy_ai/widgets/widgets.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -74,29 +75,8 @@ class ChatScreen extends StatelessWidget {
                     width: 8,
                   ),
                   Expanded(
-                    child: TextField(
-                      autocorrect: true,
-                      keyboardType: TextInputType.text,
-                      cursorColor: MyColors.prussianBlue,
-                      style: const TextStyle(color: MyColors.prussianBlue),
-                      decoration: const InputDecoration(
-                        hintText: 'Type a message',
-                        hintStyle: TextStyle(color: MyColors.prussianBlue),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: MyColors.prussianBlue,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(26)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: MyColors.prussianBlue,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(26)),
-                        ),
-                      ),
+                    child: CustomTextField(
+                      hintTextCustom: 'Type a message',
                       controller: authController.messageController,
                     ),
                   ),
