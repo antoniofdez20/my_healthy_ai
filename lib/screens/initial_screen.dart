@@ -33,7 +33,6 @@ class InitialScreen extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: () async {
                 await authController.loginWithGoogle();
-                Get.offAllNamed('/homeScreen');
               },
               icon: Image.asset(
                 'assets/icons/google_icon.png',
