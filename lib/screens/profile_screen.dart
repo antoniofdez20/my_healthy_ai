@@ -44,6 +44,23 @@ class ProfileScreen extends StatelessWidget {
                       authController.getUserCreationDate(),
                       style: const TextStyle(fontSize: 10),
                     ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.logout),
+                          onPressed: () async {
+                            await authController.signOut();
+                            Get.offAllNamed('/initialScreen');
+                          },
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ],
