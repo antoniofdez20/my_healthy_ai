@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_healthy_ai/controllers/controllers.dart';
+import 'package:my_healthy_ai/models/models.dart';
 import 'package:my_healthy_ai/utils/utils.dart';
 import 'package:my_healthy_ai/widgets/widgets.dart';
 
@@ -88,6 +89,11 @@ class HomeScreen extends StatelessWidget {
                         ),
                         margin: const EdgeInsets.all(8),
                         child: ListTile(
+                          onTap: () {
+                            recetasController.tempReceta.value =
+                                Receta.fromJson(receta);
+                            Get.toNamed('/detailsScreen');
+                          },
                           leading: Image.asset(receta['image']),
                           title: Text(receta['title']),
                           subtitle: Text(receta['description']),

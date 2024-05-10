@@ -60,6 +60,7 @@ class AppPages {
       page: () => const DetailsScreen(),
       binding: BindingsBuilder(() {
         Get.lazyPut<AuthController>(() => AuthController());
+        Get.lazyPut<RecetasController>(() => RecetasController());
       }),
     ),
   ];

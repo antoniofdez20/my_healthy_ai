@@ -10,4 +10,13 @@ class Receta {
     required this.image,
     required this.isFavourite,
   });
+
+  factory Receta.fromJson(Map<String, dynamic> json) {
+    return Receta(
+      title: json['title'],
+      description: json['description'],
+      image: json['image'],
+      isFavourite: json['isFavourite'],
+    );
+  }
 }

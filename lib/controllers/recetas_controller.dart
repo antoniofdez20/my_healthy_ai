@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_healthy_ai/models/models.dart';
 
 class RecetasController extends GetxController {
   final RxList<Map<String, dynamic>> recetas = <Map<String, dynamic>>[].obs;
+  final Rxn<Receta> tempReceta = Rxn<Receta>();
   TextEditingController searchController = TextEditingController();
   final List<String> filtros = [
     'Carne',
