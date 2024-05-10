@@ -19,4 +19,13 @@ class Receta {
       isFavourite: json['isFavourite'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'description': description,
+      'image': image,
+      'isFavourite': isFavourite,
+    };
+  }
 }
