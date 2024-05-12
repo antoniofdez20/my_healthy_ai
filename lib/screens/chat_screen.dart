@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:my_healthy_ai/controllers/controllers.dart';
 import 'package:my_healthy_ai/models/models.dart';
 import 'package:my_healthy_ai/utils/utils.dart';
-import 'package:my_healthy_ai/widgets/bottom_navigation_bar.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:my_healthy_ai/widgets/widgets.dart';
 

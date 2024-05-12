@@ -18,6 +18,16 @@ class FirestoreRepository {
     }, SetOptions(merge: true));
   }
 
+  Future<void> updateUser(User user, String newUsername) async {
+    try {
+      DocumentReference userDocRef =
+          _firestore.collection('users').doc(user.uid);
+      await userDocRef.update({'username': user.displayName ?? newUsername});
+    } catch (e) {
+      _validator.showSnackbarError("Failed to persist user: ${e.toString()}");
+    }
+  }
+
   Future<bool> isUsernameTaken(String username) async {
     final QuerySnapshot result = await _firestore
         .collection('users')

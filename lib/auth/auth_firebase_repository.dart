@@ -7,6 +7,30 @@ class AuthFirebaseRepository {
   final _validator = FormValidator();
   final _firestoreRepository = FirestoreRepository();
 
+  Future<User?> updateUsername(User? user, String newUsername) async {
+    try {
+      if (await _firestoreRepository.isUsernameTaken(newUsername)) {
+        return user;
+      }
+      if (user != null) {
+        await user.updateDisplayName(newUsername);
+        user = FirebaseAuth.instance.currentUser;
+
+        if (user?.displayName == newUsername) {
+          await _firestoreRepository.updateUser(user!, newUsername);
+        }
+
+        return user;
+      } else {
+        _validator.showSnackbarError("User is null");
+        return null;
+      }
+    } catch (e) {
+      _validator.showSnackbarError(e.toString());
+      return user;
+    }
+  }
+
   Future<User?> registerWithEmailAndPassword(
       {required String email,
       required String password,

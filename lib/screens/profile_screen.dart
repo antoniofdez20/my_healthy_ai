@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_healthy_ai/controllers/controllers.dart';
 import 'package:my_healthy_ai/models/models.dart';
+import 'package:my_healthy_ai/utils/utils.dart';
 import 'package:my_healthy_ai/widgets/widgets.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -11,7 +12,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authController = Get.find<AuthController>();
-    final user = authController.firebaseUser.value;
+    final user = authController.firebaseUser;
     final recetasController = Get.find<RecetasController>();
     return Scaffold(
       body: Container(
@@ -29,17 +30,19 @@ class ProfileScreen extends StatelessWidget {
                 CircleAvatar(
                   backgroundColor: Colors.white,
                   radius: 80,
-                  backgroundImage: user?.photoURL != null
-                      ? CachedNetworkImageProvider(user!.photoURL!)
+                  backgroundImage: user.value?.photoURL != null
+                      ? CachedNetworkImageProvider(user.value!.photoURL!)
                       : const AssetImage('assets/img/avatar_user.png')
                           as ImageProvider,
                 ),
                 Column(
                   children: [
-                    Text(
-                      user?.displayName ?? 'No name',
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
+                    Obx(
+                      () => Text(
+                        user.value?.displayName ?? 'No name',
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
                     ),
                     Text(
                       authController.getUserCreationDate(),
@@ -51,7 +54,8 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         IconButton(
                           icon: const Icon(Icons.edit),
-                          onPressed: () {},
+                          onPressed: () =>
+                              _bottomSheet(context, authController),
                         ),
                         IconButton(
                           icon: const Icon(Icons.logout),
@@ -110,6 +114,52 @@ class ProfileScreen extends StatelessWidget {
       ),
       bottomNavigationBar: CustomNavigationBar(
         user: authController.firebaseUser.value,
+      ),
+    );
+  }
+
+  _bottomSheet(BuildContext context, AuthController authController) {
+    Get.bottomSheet(
+      SizedBox(
+        height: 250,
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20),
+            const Text(
+              'Edit Profile',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: CustomTextField(
+                controller: authController.usernameController,
+                hintTextCustom: 'New Username',
+              ),
+            ),
+            Obx(
+              () => ElevatedButton(
+                onPressed: authController.isLoading.value
+                    ? null
+                    : () async {
+                        await authController.updateUsername();
+                      },
+                child: authController.isLoading.value
+                    ? const CircularProgressIndicator()
+                    : const Text('Update Username'),
+              ),
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: MyColors.azure,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
       ),
     );
   }

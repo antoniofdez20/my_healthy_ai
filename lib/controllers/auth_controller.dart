@@ -19,6 +19,7 @@ class AuthController extends GetxController {
   RxBool isPassObscured = true.obs;
   RxBool isConfirmPassObscured = true.obs;
   Rxn<User?> firebaseUser = Rxn<User?>();
+  Rxn<User?> tempUser = Rxn<User?>();
   RxList<Message> messages = <Message>[].obs;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -46,6 +47,29 @@ class AuthController extends GetxController {
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.onClose();
+  }
+
+  updateUsername() async {
+    isLoading.value = true;
+    try {
+      tempUser.value = await _authFirebaseRepository.updateUsername(
+        firebaseUser.value,
+        usernameController.value.text,
+      );
+      if (tempUser.value != null && tempUser.value != firebaseUser.value) {
+        firebaseUser.value = tempUser.value;
+        Get.back();
+        _validator.showSnackbarSuccess("Username updated!");
+      } else {
+        _validator
+            .showSnackbarError("Username already taken. Try another one.");
+      }
+    } catch (e) {
+      _validator.showSnackbarError(e.toString());
+    } finally {
+      usernameController.clear();
+      isLoading.value = false;
+    }
   }
 
   registerWithEmailAndPassword() async {
