@@ -242,7 +242,9 @@ class AuthController extends GetxController {
       final response = await model.generateContent(content);
       return response.text!;
     } catch (e) {
-      print(e.toString());
+      _validator.showSnackbarError(
+          'My Healthy AI isn´t available now. Try again later.');
+      isLoading.value = false;
     }
     return null;
   }
