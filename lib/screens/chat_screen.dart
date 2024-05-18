@@ -82,18 +82,25 @@ class ChatScreen extends StatelessWidget {
                   const SizedBox(
                     width: 8,
                   ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      if (authController.messageController.text.isNotEmpty) {
-                        authController.sendMessage();
-                      }
-                    },
-                    backgroundColor: Colors.blueAccent,
-                    shape: const CircleBorder(),
-                    child: const Icon(
-                      Icons.send,
-                      color: Colors.white,
-                      size: 25,
+                  Obx(
+                    () => FloatingActionButton(
+                      onPressed: authController.isLoading.value
+                          ? null
+                          : () {
+                              if (authController
+                                  .messageController.text.isNotEmpty) {
+                                authController.sendMessage();
+                              }
+                            },
+                      backgroundColor: Colors.blueAccent,
+                      shape: const CircleBorder(),
+                      child: authController.isLoading.value
+                          ? const CircularProgressIndicator()
+                          : const Icon(
+                              Icons.send,
+                              color: Colors.white,
+                              size: 25,
+                            ),
                     ),
                   ),
                   const SizedBox(

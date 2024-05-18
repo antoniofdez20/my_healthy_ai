@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:my_healthy_ai/auth/auth_firebase_repository.dart';
@@ -159,6 +160,8 @@ class AuthController extends GetxController {
 
     // Siempre cierra la sesión de Firebase
     await _auth.signOut();
+
+    messages.clear();
   }
 
   deleteAccount() async {
@@ -196,7 +199,8 @@ class AuthController extends GetxController {
     }
   }
 
-  void sendMessage() {
+  void sendMessage() async {
+    isLoading.value = true;
     var message = Message(
       text: messageController.text,
       date: DateTime.now(),
@@ -205,5 +209,41 @@ class AuthController extends GetxController {
     messages.add(message);
     messageController.clear();
     update();
+    addMessageIA(message.text);
+  }
+
+  void addMessageIA(String message) async {
+    var response = await sendMessageGemini(message);
+    var messageIA = Message(
+      text: response!,
+      date: DateTime.now(),
+      isSentByUser: false,
+    );
+    messages.add(messageIA);
+    isLoading.value = false;
+    update();
+  }
+
+  Future<String?> sendMessageGemini(String userMessage) async {
+    try {
+      const apiKey =
+          'AIzaSyDGrkLGMthnx3x6I22ZmtrT7drLQ-kYFac'; //importante en produccion ponerlo como variable global tal como se muestra en la documentacion
+
+      // For text-only input, use the gemini-pro model
+      final generationConfig = GenerationConfig(
+        maxOutputTokens: 1000,
+        temperature: 0.5,
+      );
+      final model = GenerativeModel(
+          model: 'gemini-pro',
+          apiKey: apiKey,
+          generationConfig: generationConfig);
+      final content = [Content.text(userMessage)];
+      final response = await model.generateContent(content);
+      return response.text!;
+    } catch (e) {
+      print(e.toString());
+    }
+    return null;
   }
 }
