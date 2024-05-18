@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -226,8 +227,7 @@ class AuthController extends GetxController {
 
   Future<String?> sendMessageGemini(String userMessage) async {
     try {
-      const apiKey =
-          'AIzaSyDGrkLGMthnx3x6I22ZmtrT7drLQ-kYFac'; //importante en produccion ponerlo como variable global tal como se muestra en la documentacion
+      final geminiApiKey = dotenv.env['GEMINI_API_KEY'];
 
       // For text-only input, use the gemini-pro model
       final generationConfig = GenerationConfig(
@@ -236,7 +236,7 @@ class AuthController extends GetxController {
       );
       final model = GenerativeModel(
           model: 'gemini-pro',
-          apiKey: apiKey,
+          apiKey: geminiApiKey!,
           generationConfig: generationConfig);
       final content = [Content.text(userMessage)];
       final response = await model.generateContent(content);

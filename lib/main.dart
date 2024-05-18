@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:my_healthy_ai/controllers/controllers.dart';
 import 'package:my_healthy_ai/firebase_options.dart';
@@ -12,6 +13,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await PreferencesTheme.init();
+  await dotenv.load(fileName: ".env");
   Get.put(ThemeController());
   Get.put(AuthController());
   Get.put(RecetasController());
