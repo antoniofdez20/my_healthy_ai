@@ -45,7 +45,12 @@ class HomeScreen extends StatelessWidget {
                       fixedSize: const Size(55, 55),
                       shape: const CircleBorder(),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (recetasController.searchController.text.isNotEmpty) {
+                        recetasController.getRecetasQuery(
+                            recetasController.searchController.text);
+                      }
+                    },
                     child: const Icon(Icons.search),
                   ),
                 ],
@@ -67,7 +72,18 @@ class HomeScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          if (index < 4) {
+                            recetasController.getRecetasMealType(
+                                recetasController.filtros[index]);
+                          } else if (index ==
+                              recetasController.filtros.length - 1) {
+                            recetasController.getRecetasApi();
+                          } else {
+                            recetasController.getRecetasCuisineType(
+                                recetasController.filtros[index]);
+                          }
+                        },
                         child: Text(recetasController.filtros[index]),
                       ),
                     );

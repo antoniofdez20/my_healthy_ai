@@ -12,13 +12,15 @@ class RecetasController extends GetxController {
   final Rxn<RecetaApi> tempReceta = Rxn<RecetaApi>();
   TextEditingController searchController = TextEditingController();
   final List<String> filtros = [
-    'Carne',
-    'Pescado',
-    'Vegetariano',
-    'Comida',
-    'Cena',
-    'Postre',
-    'Desayuno',
+    'Breakfast',
+    'Dinner',
+    'Lunch',
+    'Snack',
+    'American',
+    'Asian',
+    'Chinese',
+    'Mexican',
+    'Mediterranean'
   ];
 
   @override
@@ -26,6 +28,12 @@ class RecetasController extends GetxController {
     super.onInit();
     //fetchRecetas();
     getRecetasApi();
+  }
+
+  @override
+  void onClose() {
+    searchController.dispose();
+    super.onClose();
   }
 
   void toggleFavourite(int index) {
@@ -49,6 +57,24 @@ class RecetasController extends GetxController {
   } */
 
   void getRecetasApi() async {
+    recipes.clear();
     recipes.value = await _apiRecipeController.getRecipes();
+  }
+
+  void getRecetasMealType(String mealType) async {
+    recipes.clear();
+    recipes.value = await _apiRecipeController.getRecipesMealType(mealType);
+  }
+
+  void getRecetasCuisineType(String cuisineType) async {
+    recipes.clear();
+    recipes.value =
+        await _apiRecipeController.getRecipesCuisineType(cuisineType);
+  }
+
+  void getRecetasQuery(String query) async {
+    recipes.clear();
+    recipes.value = await _apiRecipeController.getRecipesQuery(query);
+    searchController.clear();
   }
 }

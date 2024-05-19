@@ -18,4 +18,40 @@ class ApiRecipeController extends GetConnect {
       return data.map((hit) => RecetaApi.fromJson(hit['recipe'])).toList();
     }
   }
+
+  Future<List<RecetaApi>> getRecipesMealType(String mealType) async {
+    final response = await get(
+        '${baseUrl}app_id=$recipeAppId&app_key=$recipeApiKey&mealType=$mealType');
+
+    if (response.status.hasError) {
+      return Future.error(response.statusText.toString());
+    } else {
+      final List<dynamic> data = response.body['hits'];
+      return data.map((hit) => RecetaApi.fromJson(hit['recipe'])).toList();
+    }
+  }
+
+  Future<List<RecetaApi>> getRecipesCuisineType(String cuisineType) async {
+    final response = await get(
+        '${baseUrl}app_id=$recipeAppId&app_key=$recipeApiKey&cuisineType=$cuisineType');
+
+    if (response.status.hasError) {
+      return Future.error(response.statusText.toString());
+    } else {
+      final List<dynamic> data = response.body['hits'];
+      return data.map((hit) => RecetaApi.fromJson(hit['recipe'])).toList();
+    }
+  }
+
+  Future<List<RecetaApi>> getRecipesQuery(String query) async {
+    final response = await get(
+        '${baseUrl}q=$query&app_id=$recipeAppId&app_key=$recipeApiKey');
+
+    if (response.status.hasError) {
+      return Future.error(response.statusText.toString());
+    } else {
+      final List<dynamic> data = response.body['hits'];
+      return data.map((hit) => RecetaApi.fromJson(hit['recipe'])).toList();
+    }
+  }
 }
