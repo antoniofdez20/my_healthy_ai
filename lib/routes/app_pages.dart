@@ -30,7 +30,7 @@ class AppPages {
       page: () => const HomeScreen(),
       binding: BindingsBuilder(() {
         Get.lazyPut<AuthController>(() => AuthController());
-        Get.lazyPut<RecetasController>(() => RecetasController());
+        Get.put<RecetasController>(RecetasController(), permanent: true);
       }),
     ),
     GetPage(
@@ -38,7 +38,7 @@ class AppPages {
       page: () => const ProfileScreen(),
       binding: BindingsBuilder(() {
         Get.lazyPut<AuthController>(() => AuthController());
-        Get.lazyPut<RecetasController>(() => RecetasController());
+        Get.put<RecetasController>(RecetasController(), permanent: true);
       }),
     ),
     GetPage(
@@ -60,7 +60,7 @@ class AppPages {
       page: () => const DetailsScreen(),
       binding: BindingsBuilder(() {
         Get.lazyPut<AuthController>(() => AuthController());
-        Get.lazyPut<RecetasController>(() => RecetasController());
+        Get.put<RecetasController>(RecetasController(), permanent: true);
       }),
     ),
   ];

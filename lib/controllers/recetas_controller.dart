@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_healthy_ai/controllers/controllers.dart';
 import 'package:my_healthy_ai/models/models.dart';
+import 'package:my_healthy_ai/services/services.dart';
 
 class RecetasController extends GetxController {
+  final AuthController _authController = Get.find<AuthController>();
   final ApiRecipeController _apiRecipeController = ApiRecipeController();
   final RxList<RecetaApi> recipes = <RecetaApi>[].obs;
   final RxList<RecetaApi> favouriteRecipes = <RecetaApi>[].obs;
@@ -22,6 +25,7 @@ class RecetasController extends GetxController {
     'Mexican',
     'Mediterranean'
   ];
+  final _firestoreRepository = FirestoreRepository();
 
   @override
   void onInit() {
@@ -31,17 +35,23 @@ class RecetasController extends GetxController {
   }
 
   @override
+  void onReady() {
+    super.onReady();
+    getFavouriteRecipes(_authController.firebaseUser.value!);
+  }
+
+  @override
   void onClose() {
     searchController.dispose();
     super.onClose();
   }
 
-  void toggleFavourite(int index) {
+  /* void toggleFavourite(int index) {
     var current = recetas[index];
     current['isFavourite'] = !(current['isFavourite'] as bool? ?? false);
     recetas[index] = Map.from(
         current); // Esta línea es crucial para que GetX detecte el cambio
-  }
+  } */
 
   /* void fetchRecetas() {
     List<Map<String, dynamic>> initialRecetas = List.generate(
@@ -76,5 +86,15 @@ class RecetasController extends GetxController {
     recipes.clear();
     recipes.value = await _apiRecipeController.getRecipesQuery(query);
     searchController.clear();
+  }
+
+  Future<void> getFavouriteRecipes(User user) async {
+    favouriteRecipes.clear();
+    favouriteRecipes.value =
+        await _firestoreRepository.getFavouriteRecipes(user);
+  }
+
+  bool isRecipeFavourite(String label) {
+    return favouriteRecipes.any((receta) => receta.label == label);
   }
 }

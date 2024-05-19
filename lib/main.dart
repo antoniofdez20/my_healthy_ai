@@ -16,7 +16,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
   Get.put(ThemeController());
   Get.put(AuthController());
-  Get.put(RecetasController());
+  //Get.put(RecetasController());
   runApp(MyApp());
 }
 

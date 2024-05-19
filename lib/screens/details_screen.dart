@@ -8,6 +8,7 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final recetasController = Get.find<RecetasController>();
+    final authController = Get.find<AuthController>();
     final tempReceta = recetasController.tempReceta.value;
     return Scaffold(
       appBar: AppBar(
@@ -69,15 +70,30 @@ class DetailsScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () {
-                      /* recetasController.toggleFavourite(
-                        recetasController.recetas.indexWhere(
-                          (element) => element['title'] == tempReceta?.title,
-                        ),
-                      ); */
+                    onPressed: () async {
+                      if (recetasController
+                          .isRecipeFavourite(tempReceta!.label)) {
+                        final result = await authController
+                            .deleteFavouriteRecipe(tempReceta);
+                        if (result) {
+                          recetasController.favouriteRecipes.removeWhere(
+                              (element) => element.label == tempReceta.label);
+                        }
+                      } else {
+                        recetasController.favouriteRecipes.add(tempReceta);
+                        authController.updateFavouriteRecipe(tempReceta);
+                      }
                     },
                     label: const Text('Toggle Favourite'),
-                    icon: const Icon(Icons.favorite_border_outlined),
+                    icon: Obx(
+                      () => IconButton(
+                        icon: recetasController
+                                .isRecipeFavourite(tempReceta!.label)
+                            ? const Icon(Icons.favorite, color: Colors.red)
+                            : const Icon(Icons.favorite_border),
+                        onPressed: () async {},
+                      ),
+                    ),
                   ),
                 ],
               ),

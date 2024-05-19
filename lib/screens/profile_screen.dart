@@ -98,17 +98,45 @@ class ProfileScreen extends StatelessWidget {
                               recetasController.tempReceta.value = receta;
                               Get.toNamed('/detailsScreen');
                             },
-                            leading: Image(image: NetworkImage(receta.image!)),
+                            leading: receta.image != null
+                                ? FadeInImage(
+                                    placeholder: const AssetImage(
+                                        'assets/img/receta_placeholder.png'),
+                                    image: NetworkImage(receta.image!),
+                                    imageErrorBuilder:
+                                        (context, error, stackTrace) {
+                                      return Image.asset(
+                                          'assets/img/receta_placeholder.png'); // O cualquier otro widget de error
+                                    },
+                                  )
+                                : Image.asset(
+                                    'assets/img/receta_placeholder.png'),
                             title: Text(receta.label),
                             subtitle: Text(
                                 'Calories: ${receta.calories.toStringAsFixed(2)}'),
-                            /* trailing: IconButton(
-                            icon: receta['isFavourite']
-                                ? const Icon(Icons.favorite, color: Colors.red)
-                                : const Icon(Icons.favorite_border),
-                            onPressed: () =>
-                                recetasController.toggleFavourite(index),
-                          ), */
+                            trailing: IconButton(
+                              icon: recetasController
+                                      .isRecipeFavourite(receta.label)
+                                  ? const Icon(Icons.favorite,
+                                      color: Colors.red)
+                                  : const Icon(Icons.favorite_border),
+                              onPressed: () async {
+                                if (recetasController
+                                    .isRecipeFavourite(receta.label)) {
+                                  final result = await authController
+                                      .deleteFavouriteRecipe(receta);
+                                  if (result) {
+                                    recetasController.favouriteRecipes
+                                        .removeWhere((element) =>
+                                            element.label == receta.label);
+                                  }
+                                } else {
+                                  recetasController.favouriteRecipes
+                                      .add(receta);
+                                  authController.updateFavouriteRecipe(receta);
+                                }
+                              },
+                            ),
                           ),
                         );
                       },

@@ -9,6 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:my_healthy_ai/auth/auth_firebase_repository.dart';
 import 'package:my_healthy_ai/models/models.dart';
+import 'package:my_healthy_ai/services/services.dart';
 import 'package:my_healthy_ai/utils/utils.dart';
 
 class AuthController extends GetxController {
@@ -27,6 +28,7 @@ class AuthController extends GetxController {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final _authFirebaseRepository = AuthFirebaseRepository();
   final _validator = FormValidator();
+  final _firestoreRepository = FirestoreRepository();
 
   //funcion para conocer si el usuario esta logueado o no
   Stream<User?> get userStream => _auth.authStateChanges();
@@ -49,6 +51,43 @@ class AuthController extends GetxController {
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.onClose();
+  }
+
+  updateFavouriteRecipe(RecetaApi receta) async {
+    try {
+      bool result = await _firestoreRepository.updateFavouriteRecipe(
+        firebaseUser.value!,
+        receta,
+      );
+      if (result) {
+        _validator.showSnackbarSuccess("New favourite recipe added!");
+      } else {
+        _validator.showSnackbarError("Something was wrong. Try again later.");
+      }
+    } catch (e) {
+      _validator.showSnackbarError(e.toString());
+    }
+
+    update();
+  }
+
+  Future<bool> deleteFavouriteRecipe(RecetaApi receta) async {
+    try {
+      bool result = await _firestoreRepository.deleteFavouriteRecipe(
+        firebaseUser.value!,
+        receta,
+      );
+      if (result) {
+        _validator.showSnackbarSuccess("Favourite recipe deleted!");
+        return true;
+      } else {
+        _validator.showSnackbarError("Something was wrong. Try again later.");
+        return false;
+      }
+    } catch (e) {
+      _validator.showSnackbarError(e.toString());
+      return false;
+    }
   }
 
   updateUsername() async {
