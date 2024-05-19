@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_healthy_ai/controllers/controllers.dart';
 import 'package:my_healthy_ai/models/models.dart';
 
 class RecetasController extends GetxController {
+  final ApiRecipeController _apiRecipeController = ApiRecipeController();
+  final RxList<RecetaApi> recipes = <RecetaApi>[].obs;
+
   final RxList<Map<String, dynamic>> recetas = <Map<String, dynamic>>[].obs;
   final Rxn<Receta> tempReceta = Rxn<Receta>();
   TextEditingController searchController = TextEditingController();
@@ -19,7 +23,8 @@ class RecetasController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchRecetas();
+    //fetchRecetas();
+    getRecetasApi();
   }
 
   void toggleFavourite(int index) {
@@ -40,5 +45,10 @@ class RecetasController extends GetxController {
       },
     );
     recetas.assignAll(initialRecetas);
+  }
+
+  void getRecetasApi() async {
+    await _apiRecipeController.getRecipes();
+    recipes.value = _apiRecipeController.recetas;
   }
 }
