@@ -1,33 +1,33 @@
 class Ingredient {
   final String text;
   final double quantity;
-  final String measure;
+  final String? measure;
   final String food;
   final double weight;
-  final String foodCategory;
+  final String? foodCategory;
   final String foodId;
-  final String image;
+  final String? image;
 
   Ingredient({
     required this.text,
     required this.quantity,
-    required this.measure,
+    this.measure,
     required this.food,
     required this.weight,
-    required this.foodCategory,
+    this.foodCategory,
     required this.foodId,
-    required this.image,
+    this.image,
   });
 
   factory Ingredient.fromJson(Map<String, dynamic> json) {
     return Ingredient(
-      text: json['text'],
-      quantity: json['quantity'],
+      text: json['text'] ?? '',
+      quantity: (json['quantity'] ?? 0).toDouble(),
       measure: json['measure'],
-      food: json['food'],
-      weight: json['weight'],
+      food: json['food'] ?? '',
+      weight: (json['weight'] ?? 0).toDouble(),
       foodCategory: json['foodCategory'],
-      foodId: json['foodId'],
+      foodId: json['foodId'] ?? '',
       image: json['image'],
     );
   }

@@ -26,7 +26,9 @@ class DetailsScreen extends StatelessWidget {
                 height: 250,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(tempReceta?.image ?? ''),
+                    image: tempReceta?.image != null
+                        ? NetworkImage(tempReceta!.image!) as ImageProvider
+                        : const AssetImage('assets/img/receta_placeholder.png'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -38,11 +40,12 @@ class DetailsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      tempReceta?.title ?? '',
+                      tempReceta?.label ?? '',
                       style: const TextStyle(
                           fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    Text(tempReceta?.description ?? ''),
+                    Text(
+                        'Calories: ${tempReceta?.calories.toStringAsFixed(2)}'),
                     const SizedBox(height: 20),
                     const Text(
                       'INGREDIENTES',
@@ -67,11 +70,11 @@ class DetailsScreen extends StatelessWidget {
                 children: [
                   ElevatedButton.icon(
                     onPressed: () {
-                      recetasController.toggleFavourite(
+                      /* recetasController.toggleFavourite(
                         recetasController.recetas.indexWhere(
                           (element) => element['title'] == tempReceta?.title,
                         ),
-                      );
+                      ); */
                     },
                     label: const Text('Toggle Favourite'),
                     icon: const Icon(Icons.favorite_border_outlined),

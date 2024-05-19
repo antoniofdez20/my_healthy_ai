@@ -2,7 +2,7 @@ import 'package:my_healthy_ai/models/models.dart';
 
 class RecetaApi {
   final String label;
-  final String image;
+  final String? image;
   final List<String> dietLabels;
   final List<String> healthLabels;
   final List<String> ingredientLines;
@@ -14,7 +14,7 @@ class RecetaApi {
 
   RecetaApi({
     required this.label,
-    required this.image,
+    this.image,
     required this.dietLabels,
     required this.healthLabels,
     required this.ingredientLines,
@@ -27,17 +27,17 @@ class RecetaApi {
 
   factory RecetaApi.fromJson(Map<String, dynamic> json) {
     return RecetaApi(
-      label: json['label'],
+      label: json['label'] ?? '',
       image: json['image'],
-      dietLabels: List<String>.from(json['dietLabels']),
-      healthLabels: List<String>.from(json['healthLabels']),
-      ingredientLines: List<String>.from(json['ingredientLines']),
+      dietLabels: List<String>.from(json['dietLabels'] ?? []),
+      healthLabels: List<String>.from(json['healthLabels'] ?? []),
+      ingredientLines: List<String>.from(json['ingredientLines'] ?? []),
       ingredients: List<Ingredient>.from(
-          json['ingredients'].map((x) => Ingredient.fromJson(x))),
-      calories: json['calories'],
-      cuisineType: List<String>.from(json['cuisineType']),
-      mealType: List<String>.from(json['mealType']),
-      dishType: List<String>.from(json['dishType']),
+          (json['ingredients'] ?? []).map((x) => Ingredient.fromJson(x))),
+      calories: (json['calories'] ?? 0).toDouble(),
+      cuisineType: List<String>.from(json['cuisineType'] ?? []),
+      mealType: List<String>.from(json['mealType'] ?? []),
+      dishType: List<String>.from(json['dishType'] ?? []),
     );
   }
 

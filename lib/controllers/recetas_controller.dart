@@ -6,9 +6,10 @@ import 'package:my_healthy_ai/models/models.dart';
 class RecetasController extends GetxController {
   final ApiRecipeController _apiRecipeController = ApiRecipeController();
   final RxList<RecetaApi> recipes = <RecetaApi>[].obs;
+  final RxList<RecetaApi> favouriteRecipes = <RecetaApi>[].obs;
 
   final RxList<Map<String, dynamic>> recetas = <Map<String, dynamic>>[].obs;
-  final Rxn<Receta> tempReceta = Rxn<Receta>();
+  final Rxn<RecetaApi> tempReceta = Rxn<RecetaApi>();
   TextEditingController searchController = TextEditingController();
   final List<String> filtros = [
     'Carne',
@@ -34,7 +35,7 @@ class RecetasController extends GetxController {
         current); // Esta línea es crucial para que GetX detecte el cambio
   }
 
-  void fetchRecetas() {
+  /* void fetchRecetas() {
     List<Map<String, dynamic>> initialRecetas = List.generate(
       10,
       (index) => {
@@ -45,10 +46,9 @@ class RecetasController extends GetxController {
       },
     );
     recetas.assignAll(initialRecetas);
-  }
+  } */
 
   void getRecetasApi() async {
-    await _apiRecipeController.getRecipes();
-    recipes.value = _apiRecipeController.recetas;
+    recipes.value = await _apiRecipeController.getRecipes();
   }
 }

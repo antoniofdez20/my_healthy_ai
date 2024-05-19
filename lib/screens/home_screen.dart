@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_healthy_ai/controllers/controllers.dart';
-import 'package:my_healthy_ai/models/models.dart';
 import 'package:my_healthy_ai/utils/utils.dart';
 import 'package:my_healthy_ai/widgets/widgets.dart';
 
@@ -78,36 +77,47 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 10),
               Expanded(
                 child: Obx(
-                  () => ListView.builder(
-                    itemCount: recetasController.recetas.length,
-                    itemBuilder: (context, index) {
-                      final receta = recetasController.recetas[index];
-                      return Card(
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        margin: const EdgeInsets.all(8),
-                        child: ListTile(
-                          onTap: () {
-                            recetasController.tempReceta.value =
-                                Receta.fromJson(receta);
-                            Get.toNamed('/detailsScreen');
-                          },
-                          leading: Image.asset(receta['image']),
-                          title: Text(receta['title']),
-                          subtitle: Text(receta['description']),
-                          trailing: IconButton(
-                            icon: receta['isFavourite']
-                                ? const Icon(Icons.favorite, color: Colors.red)
-                                : const Icon(Icons.favorite_border),
-                            onPressed: () =>
-                                recetasController.toggleFavourite(index),
-                          ),
-                        ),
+                  () {
+                    if (recetasController.recipes.isEmpty) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
-                    },
-                  ),
+                    } else {
+                      return ListView.builder(
+                        itemCount: recetasController.recipes.length,
+                        itemBuilder: (context, index) {
+                          final receta = recetasController.recipes[index];
+                          return Card(
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            margin: const EdgeInsets.all(8),
+                            child: ListTile(
+                              onTap: () {
+                                recetasController.tempReceta.value = receta;
+                                Get.toNamed('/detailsScreen');
+                              },
+                              leading: receta.image != null
+                                  ? Image.network(receta.image!)
+                                  : Image.asset(
+                                      'assets/img/receta_placeholder.png'),
+                              title: Text(receta.label),
+                              subtitle: Text(
+                                  'Calories: ${receta.calories.toStringAsFixed(2)}'),
+                              /* trailing: IconButton(
+                  icon: receta['isFavourite']
+                      ? const Icon(Icons.favorite, color: Colors.red)
+                      : const Icon(Icons.favorite_border),
+                  onPressed: () =>
+                      recetasController.toggleFavourite(index),
+                ), */
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  },
                 ),
               ),
             ],
