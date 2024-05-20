@@ -46,6 +46,8 @@ class FormValidator {
         Icons.error,
         color: Colors.red,
       ),
+      isDismissible: true,
+      dismissDirection: DismissDirection.up,
       backgroundColor: const Color.fromARGB(160, 233, 62, 50),
       colorText: MyColors.prussianBlue,
       messageText: Text(
@@ -68,6 +70,8 @@ class FormValidator {
         Icons.check_circle,
         color: Colors.green,
       ),
+      isDismissible: true,
+      dismissDirection: DismissDirection.up,
       backgroundColor: const Color.fromARGB(160, 56, 203, 152),
       colorText: MyColors.prussianBlue,
       messageText: Text(

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_healthy_ai/controllers/controllers.dart';
@@ -22,17 +23,24 @@ class DetailsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 width: double.maxFinite,
                 height: 250,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: tempReceta?.image != null
-                        ? NetworkImage(tempReceta!.image!) as ImageProvider
-                        : const AssetImage('assets/img/receta_placeholder.png'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                child: tempReceta?.image != null
+                    ? CachedNetworkImage(
+                        imageUrl: tempReceta!.image!,
+                        placeholder: (context, url) => Image.asset(
+                          'assets/img/receta_placeholder.png',
+                          fit: BoxFit.cover,
+                        ),
+                        errorWidget: (context, url, error) => Image.asset(
+                          'assets/img/receta_placeholder.png',
+                          fit: BoxFit.cover,
+                        ),
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset('assets/img/receta_placeholder.png',
+                        fit: BoxFit.cover),
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -49,20 +57,97 @@ class DetailsScreen extends StatelessWidget {
                         'Calories: ${tempReceta?.calories.toStringAsFixed(2)}'),
                     const SizedBox(height: 20),
                     const Text(
-                      'INGREDIENTES',
+                      'INGREDIENTS',
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    const Text(
-                        'Calabaza ......... 1Kg \nCebolla morada ......... 1 unidad\nAceite de oliva ......... 2 cucharadas\nSal ......... al gusto\nPimienta ......... al gusto'),
+                    tempReceta?.ingredientLines != null
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: tempReceta!.ingredientLines
+                                .map((e) => Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('* ${e.capitalizeFirst}.'),
+                                        const SizedBox(height: 5),
+                                      ],
+                                    ))
+                                .toList(),
+                          )
+                        : const SizedBox(),
                     const SizedBox(height: 20),
                     const Text(
-                      'PREPARACIÓN',
+                      'CUISINE TYPE',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    tempReceta?.cuisineType != null
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: tempReceta!.cuisineType
+                                .map((e) => Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('* ${e.capitalizeFirst}.'),
+                                        const SizedBox(height: 5),
+                                      ],
+                                    ))
+                                .toList(),
+                          )
+                        : const SizedBox(),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'MEAL TYPE',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    tempReceta?.mealType != null
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: tempReceta!.mealType
+                                .map((e) => Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('* ${e.capitalizeFirst}.'),
+                                        const SizedBox(height: 5),
+                                      ],
+                                    ))
+                                .toList(),
+                          )
+                        : const SizedBox(),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'DISH TYPE',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    tempReceta?.dishType != null
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: tempReceta!.dishType
+                                .map((e) => Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('* ${e.capitalizeFirst}.'),
+                                        const SizedBox(height: 5),
+                                      ],
+                                    ))
+                                .toList(),
+                          )
+                        : const SizedBox(),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'PREPARATION',
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const Text(
-                        '1. Precalentar el horno a 180ºC.\n2. Cortar la calabaza en trozos y la cebolla en juliana.\n3. En una bandeja de horno, colocar la calabaza y la cebolla, añadir el aceite de oliva, la sal y la pimienta.\n4. Hornear durante 30 minutos.\n5. Servir caliente.'),
+                        '1. Lorem ipsum dolor sit amet.\n2. Consectetur adipiscing elit.\n3. Suspendisse laoreet leo a nisi dictum semper.\n4. Mauris non nulla pellentesque, mattis.'),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -97,6 +182,7 @@ class DetailsScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
