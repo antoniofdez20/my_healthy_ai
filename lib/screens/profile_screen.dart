@@ -38,7 +38,7 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     Obx(
                       () => Text(
-                        user.value?.displayName ?? 'No name',
+                        _getFirstName(user.value?.displayName),
                         style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
@@ -199,4 +199,16 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+_getFirstName(String? fullName) {
+  if (fullName == null || fullName.isEmpty) {
+    return 'No name';
+  }
+  int firstSpace = fullName.indexOf(' ');
+  if (firstSpace == -1) {
+    // No space found, return the full name
+    return fullName;
+  }
+  return fullName.substring(0, firstSpace);
 }

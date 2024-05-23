@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_healthy_ai/controllers/controllers.dart';
+import 'package:my_healthy_ai/utils/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key});
@@ -11,6 +13,7 @@ class DetailsScreen extends StatelessWidget {
     final recetasController = Get.find<RecetasController>();
     final authController = Get.find<AuthController>();
     final tempReceta = recetasController.tempReceta.value;
+    final validator = FormValidator();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Details Screen'),
@@ -182,13 +185,20 @@ class DetailsScreen extends StatelessWidget {
                           )
                         : const SizedBox(),
                     const SizedBox(height: 20),
-                    const Text(
-                      'PREPARATION',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ElevatedButton.icon(
+                      onPressed: () async {
+                        final String? urlString = tempReceta!.url;
+                        if (urlString != null) {
+                          if (!await launch(urlString)) {
+                            validator.showSnackbarError('Unable to load URL.');
+                          }
+                        } else {
+                          validator.showSnackbarError('URL not found.');
+                        }
+                      },
+                      icon: const Icon(Icons.local_dining),
+                      label: const Text('Check Preparation'),
                     ),
-                    const Text(
-                        '1. Lorem ipsum dolor sit amet.\n2. Consectetur adipiscing elit.\n3. Suspendisse laoreet leo a nisi dictum semper.\n4. Mauris non nulla pellentesque, mattis.'),
                     const SizedBox(height: 20),
                   ],
                 ),

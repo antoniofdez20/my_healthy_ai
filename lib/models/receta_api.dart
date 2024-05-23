@@ -11,6 +11,7 @@ class RecetaApi {
   final List<String> cuisineType;
   final List<String> mealType;
   final List<String> dishType;
+  final String? url;
 
   RecetaApi({
     required this.label,
@@ -23,6 +24,7 @@ class RecetaApi {
     required this.cuisineType,
     required this.mealType,
     required this.dishType,
+    this.url,
   });
 
   factory RecetaApi.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,7 @@ class RecetaApi {
       cuisineType: List<String>.from(json['cuisineType'] ?? []),
       mealType: List<String>.from(json['mealType'] ?? []),
       dishType: List<String>.from(json['dishType'] ?? []),
+      url: json['url'],
     );
   }
 
@@ -53,6 +56,7 @@ class RecetaApi {
       'cuisineType': cuisineType,
       'mealType': mealType,
       'dishType': dishType,
+      'url': url,
     };
   }
 }
