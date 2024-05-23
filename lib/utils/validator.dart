@@ -5,21 +5,21 @@ import 'package:my_healthy_ai/utils/utils.dart';
 class FormValidator {
   String? isValidName(String? text) {
     if (text == null || text.isEmpty || text.length < 3) {
-      return "Este nombre NO es válido";
+      return "This name is not valid";
     }
     return null;
   }
 
   String? isValidEmail(String? text) {
-    return (text ?? "").isEmail ? null : "Este email NO es válido";
+    return (text ?? "").isEmail ? null : "This email is not valid";
   }
 
   String? isValidPass(String? text) {
-    if (text == null || text.isEmpty) return 'La contrasenya és obligatoria';
+    if (text == null || text.isEmpty) return 'The password is required';
 
     final regex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
     if (!regex.hasMatch(text)) {
-      return 'La contrasenya ha de tenir almenys 8 caràcters, lletres i números';
+      return 'The password must contain at least 8 characters, including letters and numbers';
     }
 
     return null;
@@ -27,11 +27,11 @@ class FormValidator {
 
   String? isValidPassConfirmed(String? text, String? passConf) {
     if (passConf == null || passConf.isEmpty) {
-      return "Por favor, confirma tu contraseña";
+      return "Please confirm your password";
     }
 
     if (text != passConf) {
-      return "Las contraseñas no coinciden";
+      return "Passwords do not match";
     }
     return null;
   }

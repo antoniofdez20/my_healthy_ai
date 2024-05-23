@@ -141,6 +141,48 @@ class DetailsScreen extends StatelessWidget {
                         : const SizedBox(),
                     const SizedBox(height: 20),
                     const Text(
+                      'DIET LABELS',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    tempReceta?.dietLabels != null
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: tempReceta!.dietLabels
+                                .map((e) => Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('* ${e.capitalizeFirst}.'),
+                                        const SizedBox(height: 5),
+                                      ],
+                                    ))
+                                .toList(),
+                          )
+                        : const SizedBox(),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'HEALTH LABELS',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    tempReceta?.healthLabels != null
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: tempReceta!.healthLabels
+                                .map((e) => Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('* ${e.capitalizeFirst}.'),
+                                        const SizedBox(height: 5),
+                                      ],
+                                    ))
+                                .toList(),
+                          )
+                        : const SizedBox(),
+                    const SizedBox(height: 20),
+                    const Text(
                       'PREPARATION',
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),

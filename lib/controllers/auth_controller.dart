@@ -282,7 +282,7 @@ class AuthController extends GetxController {
       return response.text!;
     } catch (e) {
       _validator.showSnackbarError(
-          'My Healthy AI isn´t available now. Try again later.');
+          'My Healthy AI is not available now. Try again later.');
       isLoading.value = false;
     }
     return null;

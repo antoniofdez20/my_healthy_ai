@@ -60,9 +60,9 @@ class AuthFirebaseRepository {
       return user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        _validator.showSnackbarError('El correo electrónico ya está en uso.');
+        _validator.showSnackbarError('Email is already in use.');
       } else if (e.code == 'weak-password') {
-        _validator.showSnackbarError('La contraseña es muy débil.');
+        _validator.showSnackbarError('The password is very weak.');
       }
       return null;
     } catch (e) {
